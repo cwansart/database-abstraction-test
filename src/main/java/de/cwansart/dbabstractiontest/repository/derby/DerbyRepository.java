@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class DerbyRepository implements Repository {
+public class DerbyRepository implements Repository, AutoCloseable {
 
     private static final Logger LOGGER = Logger.getLogger(DerbyRepository.class.getName());
 
@@ -48,5 +48,10 @@ public class DerbyRepository implements Repository {
             LOGGER.log(Level.SEVERE, "Could not connect to " + connectionUrl, e);
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public void close() throws Exception {
+        connection.close();
     }
 }
